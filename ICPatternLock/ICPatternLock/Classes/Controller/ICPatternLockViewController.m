@@ -15,24 +15,21 @@
 #import "ICPatternLockHintLabel.h"
 #import "ICPatternLockView.h"
 
-#import "ICResourceBridge.h"
-#import "ICPatternHandler.h"
-#import "ICPreferences.h"
-
 @interface ICPatternLockViewController () <ICPatternLockViewDelegate>
 
-@property (nonatomic, copy) void (^successBlock)(ICPatternLockViewController *lockVC);
-@property (nonatomic, copy) void (^forgetPwdBlock)(ICPatternLockViewController *lockVC);
+@property (nonatomic, assign) ICPatternLockType type;
+@property (nonatomic, assign) ICPatternLockState state;
 
-@property (nonatomic) ICPatternLockType type;
+@property (nonatomic, strong) ICPatternLockHintLabel *hintLabel;
+@property (nonatomic, strong) ICPatternLockView *patternView;
+@property (nonatomic, strong) UIView *actionView;
+@property (nonatomic, strong) UIButton *forgotButton;
+@property (nonatomic, strong) UIButton *modifyButton;
 
-@property (nonatomic, strong) UIBarButtonItem *resetItem;
-@property (nonatomic) ICPatternLockHintLabel *hintLabel;
-@property (nonatomic) ICPatternLockView *lockView;
-@property (nonatomic) UIView *actionView;
+@property (nonatomic, strong) UIBarButtonItem *closeBarButtonItem;
+@property (nonatomic, strong) UIBarButtonItem *resetBarButtonItem;
 
 @property (nonatomic, copy) NSString *firstSetPattern;
-@property (nonatomic, assign, getter=isVerified) BOOL verified;
 
 @end
 
@@ -40,21 +37,15 @@
 
 #pragma mark - Lifecycle
 - (instancetype)initWithType:(ICPatternLockType)type
-                successBlock:(void (^)(ICPatternLockViewController *lockVC))successBlock
-              forgetPwdBlock:(void (^)(ICPatternLockViewController *lockVC))forgetPwdBlock
 {
     if (self = [super init])
     {
         self.type = type;
-        self.successBlock = successBlock;
-        self.forgetPwdBlock = forgetPwdBlock;
+        self.minimumNodeForPattern = 4;
         
         if(self.type == ICPatternLockTypeModify)
         {
-            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:ICLocalizedString(PL_RES_KEY_TEXT_CLOSE)
-                                                                                     style:UIBarButtonItemStylePlain
-                                                                                    target:self
-                                                                                    action:@selector(closeClicked:)];
+            self.navigationItem.leftBarButtonItem = self.closeBarButtonItem;
         }
     }
     return self;
@@ -64,7 +55,7 @@
 {
     UIView *view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     view.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    view.backgroundColor = ICColor(PL_RES_KEY_COLOR_BACKGROUND);
+    view.backgroundColor = [UIColor brownColor];
     
     CGFloat viewWidth = CGRectGetWidth(view.bounds);
     CGFloat viewHeight = CGRectGetHeight(view.bounds);
@@ -87,7 +78,7 @@
     }
     
     CGFloat actionViewHeight = 40;
-    if (ICPatternLockTypeVerify == self.type)
+    if (self.type == ICPatternLockTypeVerify)
     {
         UIView *actionView = [[UIView alloc] initWithFrame:CGRectMake(0,
                                                                       viewHeight - actionViewHeight,
@@ -96,29 +87,31 @@
         actionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         actionView.backgroundColor = [UIColor clearColor];
         [view addSubview:actionView];
+        self.actionView = actionView;
         
-        UIButton *forgetButton = [[UIButton alloc] initWithFrame:CGRectMake(0,
+        UIButton *forgotButton = [[UIButton alloc] initWithFrame:CGRectMake(0,
                                                                             0,
                                                                             viewWidth/2,
                                                                             CGRectGetHeight(actionView.bounds))];
-        forgetButton.backgroundColor = [UIColor clearColor];
-        forgetButton.titleLabel.font = [UIFont systemFontOfSize:16];
-        [forgetButton setTitle:ICLocalizedString(PL_RES_KEY_TEXT_ACTION_FORGET_PATTERN) forState:UIControlStateNormal];
-        [forgetButton setTitleColor:ICColor(PL_RES_KEY_COLOR_HINT_TEXT) forState:UIControlStateNormal];
-        [forgetButton addTarget:self action:@selector(forgetClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [actionView addSubview:forgetButton];
+        forgotButton.backgroundColor = [UIColor clearColor];
+        forgotButton.titleLabel.font = [UIFont systemFontOfSize:16];
+        [forgotButton setTitle:@"Forgot" forState:UIControlStateNormal];
+        [forgotButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [forgotButton addTarget:self action:@selector(forgotClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [actionView addSubview:forgotButton];
+        self.forgotButton = forgotButton;
         
-        
-        UIButton *modifyButton = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(forgetButton.frame),
+        UIButton *modifyButton = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(forgotButton.frame),
                                                                             0,
                                                                             viewWidth/2,
                                                                             CGRectGetHeight(actionView.bounds))];
         modifyButton.backgroundColor = [UIColor clearColor];
         modifyButton.titleLabel.font = [UIFont systemFontOfSize:16];
-        [modifyButton setTitle:ICLocalizedString(PL_RES_KEY_TEXT_ACTION_MODIFY_PATTERN) forState:UIControlStateNormal];
-        [modifyButton setTitleColor:ICColor(PL_RES_KEY_COLOR_HINT_TEXT) forState:UIControlStateNormal];
+        [modifyButton setTitle:@"Modify" forState:UIControlStateNormal];
+        [modifyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [modifyButton addTarget:self action:@selector(modifyClicked:) forControlEvents:UIControlEventTouchUpInside];
         [actionView addSubview:modifyButton];
+        self.modifyButton = modifyButton;
     }
     
     ICPatternLockView *lockView = [[ICPatternLockView alloc] initWithFrame:CGRectMake(0,
@@ -127,37 +120,11 @@
                                                                                       viewHeight - CGRectGetMaxY(headerView.frame) - actionViewHeight)];
     lockView.backgroundColor = [UIColor clearColor];
     lockView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-#if 0
-    lockView.nodeCount = [ICPreferencesValue(PL_PFRS_KEY_NODE_TABLE) count];
-    lockView.nodeCountPerRow = [ICPreferencesValue(PL_PFRS_KEY_NODE_COUNT_PER_ROW) intValue];
-#endif
-    [lockView setNodeColor:ICColor(PL_RES_KEY_COLOR_CIRCLE_NORMAL) forState:ICPatternLockNodeStateNormal];
-    [lockView setNodeColor:ICColor(PL_RES_KEY_COLOR_CIRCLE_SELECTED) forState:ICPatternLockNodeStateSelected];
     [view addSubview:lockView];
-    self.lockView = lockView;
-    self.lockView.delegate = self;
+    self.patternView = lockView;
+    self.patternView.delegate = self;
     
     self.view = view;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-    NSString *msg = nil;
-    if(self.type == ICPatternLockTypeSet)
-    {
-        msg = ICLocalizedString(PL_RES_KEY_TEXT_TITLE_FIRST_SET);
-    }
-    else if (self.type == ICPatternLockTypeVerify)
-    {
-        msg = ICLocalizedString(PL_RES_KEY_TEXT_TITLE_VERIFY_PATTERN);
-    }
-    else if (self.type == ICPatternLockTypeModify)
-    {
-        msg = ICLocalizedString(PL_RES_KEY_TEXT_TITLE_MODIFY_INPUT_OLD_PATTERN);
-    }
-    [self showNormalHintMessage:msg];
 }
 
 #pragma mark - Getters
@@ -166,169 +133,144 @@
     return NO;
 }
 
-- (UIBarButtonItem *)resetItem
+- (UIBarButtonItem *)resetBarButtonItem
 {
-    if(_resetItem == nil)
+    if (_resetBarButtonItem == nil)
     {
-        _resetItem = [[UIBarButtonItem alloc] initWithTitle:ICLocalizedString(PL_RES_KEY_TEXT_RESET)
-                                                      style:UIBarButtonItemStylePlain
-                                                     target:self
-                                                     action:@selector(resetClicked:)];
+        _resetBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reset"
+                                                               style:UIBarButtonItemStylePlain
+                                                              target:self
+                                                              action:@selector(resetClicked:)];
     }
-    
-    return _resetItem;
+    return _resetBarButtonItem;
+}
+
+- (UIBarButtonItem *)closeBarButtonItem
+{
+    if (_closeBarButtonItem == nil)
+    {
+        _closeBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close"
+                                                               style:UIBarButtonItemStylePlain
+                                                              target:self
+                                                              action:@selector(closeClicked:)];
+    }
+    return _closeBarButtonItem;
 }
 
 #pragma mark - Hint Message Display
-- (void)showNormalHintMessage:(NSString *)message
+- (void)showHintMessage:(NSString *)message withTextColor:(UIColor *)color shake:(BOOL)shake
 {
-    [self.hintLabel showHintMessage:message withTextColor:ICColor(PL_RES_KEY_COLOR_HINT_TEXT)];
+    [self.hintLabel showHintMessage:message withTextColor:color];
+    if (shake)
+    {
+        [self.hintLabel shake];
+    }
 }
 
-- (void)showWarningHintMessage:(NSString *)message
+#pragma mark -
+- (void)resetPattern
 {
-    [self.hintLabel showHintMessage:message withTextColor:ICColor(PL_RES_KEY_COLOR_WARN_TEXT)];
-    [self.hintLabel shake];
+    self.firstSetPattern = nil;
+    self.state = ICPatternLockStateNone; // TODO:
 }
 
 #pragma mark - GUI Callback
-- (void)forgetClicked:(id)sender
+- (void)forgotClicked:(id)sender
 {
-    if(_forgetPwdBlock != nil) _forgetPwdBlock(self);
+    if ([self.delegate respondsToSelector:@selector(patternLockViewControllerForgotClicked:)])
+    {
+        [self.delegate patternLockViewControllerForgotClicked:self];
+    }
 }
 
 - (void)modifyClicked:(id)sender
 {
-    ICPatternLockViewController *lockVC = [[ICPatternLockViewController alloc] initWithType:ICPatternLockTypeModify successBlock:nil forgetPwdBlock:nil];
-    lockVC.title = ICLocalizedString(PL_RES_KEY_TEXT_TITLE_MODIFY_PATTERN);
-    lockVC.navigationItem.leftBarButtonItem = nil;
-
-    [self.navigationController pushViewController:lockVC animated:YES];
+    if ([self.delegate respondsToSelector:@selector(patternLockViewControllerModifyClicked:)])
+    {
+        [self.delegate patternLockViewControllerModifyClicked:self];
+    }
 }
 
 - (void)closeClicked:(id)sender
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if ([self.delegate respondsToSelector:@selector(patternLockViewControllerCloseClicked:)])
+    {
+        [self.delegate patternLockViewControllerCloseClicked:self];
+    }
+    else
+    {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 - (void)resetClicked:(id)sender
 {
-    [self showNormalHintMessage:ICLocalizedString(PL_RES_KEY_TEXT_TITLE_FIRST_SET)];
-    
     self.navigationItem.rightBarButtonItem = nil;
-    
-    [self.lockView resetPattern];
+    [self resetPattern];
+
+    if ([self.delegate respondsToSelector:@selector(patternLockViewControllerResetClicked:)])
+    {
+        [self.delegate patternLockViewControllerResetClicked:self];
+    }
 }
 
 #pragma mark - ICPatternLockViewDelegate
-- (BOOL)lockViewDidVerifyPattern:(ICPatternLockView *)lockView pattern:(NSString *)pattern
+- (BOOL)verifyPattern:(NSString *)pattern
 {
-    BOOL res = [[ICPatternHandler sharedPatternHandler] verifypattern:pattern];
-    
+    BOOL res = [self.dataSource patternLockViewController:self verifyPattern:pattern];
     if(res)
     {
-        [self showNormalHintMessage:ICLocalizedString(PL_RES_KEY_TEXT_TITLE_VERIFY_SUCCEED)];
-        
-        if(self.type == ICPatternLockTypeVerify)
-        {
-            self.view.userInteractionEnabled = NO;
-            
-        }
-        else if (self.type == ICPatternLockTypeModify)
-        {
-            [self showNormalHintMessage:ICLocalizedString(PL_RES_KEY_TEXT_TITLE_FIRST_SET)];
-        }
-        
-        if(self.type == ICPatternLockTypeVerify)
-        {
-            if(_successBlock != nil) _successBlock(self);
-        }
-        
+        [self.delegate patternLockViewControllerPatternVerified:self];
     }
     else
     {
-        [self showWarningHintMessage:ICLocalizedString(PL_RES_KEY_TEXT_TITLE_VERIFY_ERROR)];
+        NSError *error = [NSError errorWithDomain:ICPATTERNLOCK_ERROR_DOMAIN
+                                             code:ICPatternLockErrorVerifyPatternFail
+                                         userInfo:nil];
+        [self.delegate patternLockViewController:self failWithError:error];
+        
     }
     
     return res;
 }
 
-// Fail
-// Information will be stored in error.userInfo
-- (void)lockView:(ICPatternLockView *)lockView failWithError:(NSError *)error
-{
-    if (error.code == ICPatternLockErrorNotEnoughNodes)
-    {
-        NSNumber *minNodeCount = ICPreferencesValue(PL_PFRS_KEY_MINIMUM_NODE_COUNT);
-        [self showWarningHintMessage:[NSString stringWithFormat:ICLocalizedString(PL_RES_KEY_TEXT_PATTERN_TOO_SHORT), minNodeCount]];
-    }
-    else if (error.code == ICPatternLockErrorPatternsNotMatch)
-    {
-        [self showWarningHintMessage:ICLocalizedString(PL_RES_KEY_TEXT_TITLE_SECOND_WRONG)];
-        self.navigationItem.rightBarButtonItem = self.resetItem;
-    }
-}
-
 - (void)patternLockViewTouchWillBegin:(ICPatternLockView *)lockView
 {
-    if(self.type == ICPatternLockTypeSet)
-    {
-        if(self.firstSetPattern == nil)
-        {
-            [self showNormalHintMessage:ICLocalizedString(PL_RES_KEY_TEXT_TITLE_FIRST_SET)];
-        }
-        else
-        {
-            [self showNormalHintMessage:ICLocalizedString(PL_RES_KEY_TEXT_TITLE_CONFIRM_SET)];
-        }
-    }
-    else if(self.type == ICPatternLockTypeVerify)
-    {
-        [self showNormalHintMessage:ICLocalizedString(PL_RES_KEY_TEXT_TITLE_VERIFY_PATTERN)];
-    }
-    else if (self.type == ICPatternLockTypeModify)
-    {
-        NSString *msg = [self isVerified] ? ICLocalizedString(PL_RES_KEY_TEXT_TITLE_FIRST_SET) : ICLocalizedString(PL_RES_KEY_TEXT_TITLE_MODIFY_INPUT_OLD_PATTERN);
-        [self showNormalHintMessage:msg];
-    }
+    [self.delegate patternLockViewControllerWillStartDrawPattern:self];
 }
 
 - (void)patternLockViewTouchDidEnd:(ICPatternLockView *)lockView selectedIndexes:(NSArray *)selectedIndexes
 {
     NSUInteger count = [selectedIndexes count];
-    
-    NSNumber *minNodeCountNum = ICPreferencesValue(PL_PFRS_KEY_MINIMUM_NODE_COUNT);
-    NSUInteger minNodeCount = [minNodeCountNum unsignedIntegerValue];
-    
-    if(count < minNodeCount)
+    if(count < self.minimumNodeForPattern)
     {
         NSError *error = [NSError errorWithDomain:ICPATTERNLOCK_ERROR_DOMAIN
                                              code:ICPatternLockErrorNotEnoughNodes
                                          userInfo:@{ICPATTERNLOCK_ERROR_KEY_NODE_COUNT:@(count)}];
-        [self lockView:lockView failWithError:error];
+        [self.delegate patternLockViewController:self failWithError:error];
     }
     else
     {
-        NSArray *decryptTable = ICPreferencesValue(PL_PFRS_KEY_NODE_TABLE);
-        NSMutableString *parrtenStr = [NSMutableString string];
-        for (NSNumber *index in selectedIndexes)
-        {
-            [parrtenStr appendString:decryptTable[[index intValue]]];
-        }
-        
+        NSString *parrtenStr = [selectedIndexes componentsJoinedByString:@""];
         if(self.type == ICPatternLockTypeSet)
         {
             [self updatePattern:parrtenStr];
         }
         else if(self.type == ICPatternLockTypeVerify)
         {
-            self.verified = [self lockViewDidVerifyPattern:lockView pattern:parrtenStr];
+            if( [self verifyPattern:parrtenStr])
+            {
+                self.state = ICPatternLockStatePatternVerified;
+            }
         }
         else if (self.type == ICPatternLockTypeModify)
         {
-            if(![self isVerified])
+            if(self.state != ICPatternLockStatePatternVerified)
             {
-                self.verified = [self lockViewDidVerifyPattern:lockView pattern:parrtenStr];
+                if( [self verifyPattern:parrtenStr])
+                {
+                    self.state = ICPatternLockStatePatternVerified;
+                }
             }
             else
             {
@@ -343,34 +285,36 @@
     if(self.firstSetPattern == nil)
     {
         self.firstSetPattern = patternString;
-        [self showNormalHintMessage:ICLocalizedString(PL_RES_KEY_TEXT_TITLE_CONFIRM_SET)];
+        self.state = ICPatternLockStateFirstPatternSetted;
+        [self.delegate patternLockViewControllerPatternUpdated:self];
     }
     else
     {
         if(![self.firstSetPattern isEqualToString:patternString])
         {
             NSError *error = [NSError errorWithDomain:ICPATTERNLOCK_ERROR_DOMAIN code:ICPatternLockErrorPatternsNotMatch userInfo:nil];
-            [self lockView:nil failWithError:error];
+            [self.delegate patternLockViewController:self failWithError:error];
+            
+            self.navigationItem.rightBarButtonItem = self.resetBarButtonItem;
         }
         else
         {
-            [self showNormalHintMessage:ICLocalizedString(PL_RES_KEY_TEXT_TITLE_SET_SUCCEED)];
+            self.state = ICPatternLockStateSecondPatternConfirmed;
             
-            [[ICPatternHandler sharedPatternHandler] setPattern:patternString];
-            
-            self.view.userInteractionEnabled = NO;
-            
-            if(_successBlock != nil) _successBlock(self);
-            
-            if(ICPatternLockTypeModify == _type)
+            if ([self.dataSource patternLockViewController:self updatePattern:patternString])
             {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    
-                    [self.navigationController popViewControllerAnimated:YES];
-                });
+                [self.delegate patternLockViewControllerPatternUpdated:self];
+            }
+            else
+            {
+                NSError *error = [NSError errorWithDomain:ICPATTERNLOCK_ERROR_DOMAIN
+                                                     code:ICPatternLockErrorUpdatePatternFail
+                                                 userInfo:nil];
+                [self.delegate patternLockViewController:self failWithError:error];
             }
         }
     }
     
 }
+
 @end

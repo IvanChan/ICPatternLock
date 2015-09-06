@@ -247,10 +247,11 @@
         ICPatternNodeView *nodeView = self.selectedNodes[i];
         nodeView.selected = NO;
         nodeView.angleCalculated = NO;
-        [selectedIndexes addObject:@([self.allNodes indexOfObject:nodeView])];
+        
+        NSString *nodeValue = [NSString stringWithFormat:@"%d", [self.allNodes indexOfObject:nodeView]];
+        [selectedIndexes addObject:nodeValue];
     }
     [self.delegate patternLockViewTouchDidEnd:self selectedIndexes:selectedIndexes];
-
     
     [self.selectedNodes removeAllObjects];
 
@@ -350,12 +351,6 @@
     
     last_2_nodeView.angleCalculated = YES;
     last_2_nodeView.arrowAngle = angle;
-}
-
-#pragma mark - Reset
-- (void)resetPattern
-{
-    [self.selectedNodes removeAllObjects];
 }
 
 @end

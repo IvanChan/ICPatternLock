@@ -18,11 +18,9 @@
 
 @property (nonatomic, weak) id<ICPatternLockViewDelegate> delegate;
 
-- (void)resetPattern;
 - (void)setNodeColor:(UIColor *)nodeColor forState:(ICPatternLockNodeState)state;
 
 @end
-
 
 @protocol ICPatternLockViewDelegate <NSObject>
 

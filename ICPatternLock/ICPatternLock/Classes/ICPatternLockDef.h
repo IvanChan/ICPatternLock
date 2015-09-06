@@ -14,6 +14,8 @@ typedef NS_ENUM(NSUInteger, ICPatternLockError) {
     ICPatternLockErrorNone = 0,
     ICPatternLockErrorNotEnoughNodes,
     ICPatternLockErrorPatternsNotMatch,
+    ICPatternLockErrorVerifyPatternFail,
+    ICPatternLockErrorUpdatePatternFail,
 };
 
 #define ICPATTERNLOCK_ERROR_DOMAIN          @"ICPatternLockErrorDomain"
