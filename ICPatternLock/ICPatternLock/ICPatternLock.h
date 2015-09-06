@@ -10,6 +10,8 @@
 #define ICPatternLock_ICPatternLock_h
 
 #import "ICPatternLockManager.h"
+
+#import "ICPatternLockView.h"
 #import "ICPatternLockViewController.h"
 
 #import "ICResourceBridge.h"

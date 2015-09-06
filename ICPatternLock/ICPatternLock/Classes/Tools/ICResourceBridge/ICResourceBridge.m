@@ -27,8 +27,6 @@
         @synchronized (self) {
             
             s_instance = [[ICResourceBridge alloc] init];
-            [s_instance loadDefaultColorResource];
-            [s_instance loadDefaultTextResource];
         }
     }
     
@@ -36,97 +34,68 @@
 }
 
 #pragma mark -
-- (void)loadDefaultTextResource
-{
-    @synchronized (self) {
-        
-        self.resTextDict = @{PL_RES_KEY_TEXT_PATTERN_TOO_SHORT:PL_RES_DEFAULT_TEXT_PATTERN_TOO_SHORT,
-                             PL_RES_KEY_TEXT_CLOSE:PL_RES_DEFAULT_TEXT_CLOSE,
-                             PL_RES_KEY_TEXT_RESET:PL_RES_DEFAULT_TEXT_RESET,
-                             PL_RES_KEY_TEXT_TITLE_SET_PATTERN:PL_RES_DEFAULT_TEXT_TITLE_SET_PATTERN,
-                             PL_RES_KEY_TEXT_TITLE_GESTURE_UNLOCK:PL_RES_DEFAULT_TEXT_TITLE_GESTURE_UNLOCK,
-                             PL_RES_KEY_TEXT_TITLE_MODIFY_PATTERN:PL_RES_DEFAULT_TEXT_TITLE_MODIFY_PATTERN,
-                             PL_RES_KEY_TEXT_TITLE_FIRST_SET:PL_RES_DEFAULT_TEXT_TITLE_FIRST_SET,
-                             PL_RES_KEY_TEXT_TITLE_CONFIRM_SET:PL_RES_DEFAULT_TEXT_TITLE_CONFIRM_SET,
-                             PL_RES_KEY_TEXT_TITLE_SECOND_WRONG:PL_RES_DEFAULT_TEXT_TITLE_SECOND_WRONG,
-                             PL_RES_KEY_TEXT_TITLE_SET_SUCCEED:PL_RES_DEFAULT_TEXT_TITLE_SET_SUCCEED,
-                             PL_RES_KEY_TEXT_TITLE_VERIFY_PATTERN:PL_RES_DEFAULT_TEXT_TITLE_VERIFY_PATTERN,
-                             PL_RES_KEY_TEXT_TITLE_VERIFY_ERROR:PL_RES_DEFAULT_TEXT_TITLE_VERIFY_ERROR,
-                             PL_RES_KEY_TEXT_TITLE_VERIFY_SUCCEED:PL_RES_DEFAULT_TEXT_TITLE_VERIFY_SUCCEED,
-                             PL_RES_KEY_TEXT_TITLE_MODIFY_INPUT_OLD_PATTERN:PL_RES_DEFAULT_TEXT_TITLE_MODIFY_INPUT_OLD_PATTERN,
-                             PL_RES_KEY_TEXT_ACTION_FORGET_PATTERN:PL_RES_DEFAULT_TEXT_ACTION_FORGET_PATTERN,
-                             PL_RES_KEY_TEXT_ACTION_MODIFY_PATTERN:PL_RES_DEFAULT_TEXT_ACTION_MODIFY_PATTERN};
-    }
-}
-
 - (void)loadTextResource:(NSDictionary *)textInfo
 {
     @synchronized (self) {
-        NSMutableDictionary *oldInfo = [self.resTextDict mutableCopy];
-        [oldInfo addEntriesFromDictionary:textInfo];
-        self.resTextDict = [oldInfo copy];
-    }
-}
 
-- (void)loadDefaultColorResource
-{
-    @synchronized (self) {
-        
-        self.resColorDict = @{PL_RES_KEY_COLOR_BACKGROUND:PL_RES_DEFAULT_COLOR_BACKGROUND,
-                              PL_RES_KEY_COLOR_NAVI_TEXT:PL_RES_DEFAULT_COLOR_NAVI_TEXT,
-                              PL_RES_KEY_COLOR_HINT_TEXT:PL_RES_DEFAULT_COLOR_HINT_TEXT,
-                              PL_RES_KEY_COLOR_CIRCLE_LINE_NORMAL:PL_RES_DEFAULT_COLOR_CIRCLE_LINE_NORMAL,
-                              PL_RES_KEY_COLOR_CIRCLE_LINE_SELECTED:PL_RES_DEFAULT_COLOR_CIRCLE_LINE_SELECTED,
-                              PL_RES_KEY_COLOR_CIRCLE_NORMAL:PL_RES_DEFALUT_COLOR_CIRCLE_NORMAL,
-                              PL_RES_KEY_COLOR_CIRCLE_SELECTED:PL_RES_DEFALUT_COLOR_CIRCLE_SELECTED,
-                              PL_RES_KEY_COLOR_WARN_TEXT:PL_RES_DEFAULT_COLOR_WARN_TEXT,
-                              PL_RES_KEY_COLOR_ACTION_TEXT:PL_RES_DEFAULT_COLOR_ACTION_TEXT
-                              };
+        if ([self.resTextDict count] > 0)
+        {
+            NSMutableDictionary *oldInfo = [self.resTextDict mutableCopy];
+            [oldInfo addEntriesFromDictionary:textInfo];
+            self.resTextDict = [oldInfo copy];
+        }
+        else
+        {
+            self.resTextDict = [textInfo copy];
+        }
     }
 }
 
 - (void)loadColorResource:(NSDictionary *)colorInfo
 {
     @synchronized (self) {
-        NSMutableDictionary *oldInfo = [self.resColorDict mutableCopy];
-        [oldInfo addEntriesFromDictionary:colorInfo];
-        self.resColorDict = [oldInfo copy];
+        
+        if ([self.resColorDict count] > 0)
+        {
+            NSMutableDictionary *oldInfo = [self.resColorDict mutableCopy];
+            [oldInfo addEntriesFromDictionary:colorInfo];
+            self.resColorDict = [oldInfo copy];
+        }
+        else
+        {
+            self.resColorDict = [colorInfo copy];
+        }
     }
 }
 
 #pragma mark - Convenience
 - (NSString *)textForKey:(NSString *)key
 {
-    @synchronized (self) {
-
-        if ([self.resTextDict count] <= 0)
-        {
-            [self loadDefaultTextResource];
-        }
-    }
-    
     if ([key length] <= 0)
     {
-        return @"";
+        return nil;
     }
     
-    NSString *textStr = self.resTextDict[key];
-    assert(textStr);
-    return textStr ? textStr : @"";
+    @synchronized (self) {
+
+        NSString *textStr = self.resTextDict[key];
+        assert(textStr);
+        return textStr ? textStr : @"";
+    }
 }
 
 - (UIColor *)colorForKey:(NSString *)key
 {
-    @synchronized (self) {
-        
-        if ([self.resColorDict count] <= 0)
-        {
-            [self loadDefaultColorResource];
-        }
+    if ([key length] <= 0)
+    {
+        return nil;
     }
+    
+    @synchronized (self) {
 
-    UIColor *color = self.resColorDict[key];
-    assert(color);
-    return color;
+        UIColor *color = self.resColorDict[key];
+        assert(color);
+        return color;
+    }
 }
 @end

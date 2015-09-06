@@ -7,8 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PLResourceTextKeyDef.h"
-#import "PLResourceColorKeyDef.h"
 
 @interface ICResourceBridge : NSObject
 

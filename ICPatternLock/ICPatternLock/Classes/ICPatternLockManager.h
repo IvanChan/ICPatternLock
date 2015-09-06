@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ICPatternLockDef.h"
 
 @class ICPatternLockViewController;
 @protocol ICPatternHandlerProtocol;
@@ -21,18 +20,18 @@
 // Show pattern setter view
 + (ICPatternLockViewController *)showSettingPatternLock:(UIViewController *)parentViewController
                                     animated:(BOOL)animated
-                                successBlock:(void(^)(ICPatternLockViewController *lockVC))successBlock;
+                                successBlock:(void(^)(ICPatternLockViewController *patternLockViewController))successBlock;
 
 // Show pattern verify view
 + (ICPatternLockViewController *)showVerifyPatternLock:(UIViewController *)parentViewController
                                    animated:(BOOL)animated
-                             forgetPwdBlock:(void(^)(ICPatternLockViewController *lockVC))forgetPwdBlock
-                               successBlock:(void(^)(ICPatternLockViewController *lockVC))successBlock;
+                             forgetPwdBlock:(void(^)(ICPatternLockViewController *patternLockViewController))forgetPwdBlock
+                               successBlock:(void(^)(ICPatternLockViewController *patternLockViewController))successBlock;
 
 // Show pattern modify view
 + (ICPatternLockViewController *)showModifyPatternLock:(UIViewController *)parentViewController
                                    animated:(BOOL)animated
-                               successBlock:(void(^)(ICPatternLockViewController *lockVC))successBlock;
+                               successBlock:(void(^)(ICPatternLockViewController *patternLockViewController))successBlock;
 
 #pragma mark - Resource Bridge
 + (void)loadTextResource:(NSDictionary *)textInfo;

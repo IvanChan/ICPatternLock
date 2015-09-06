@@ -15,7 +15,7 @@
 {
     [super viewDidLoad];
     
-    [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:ICColor(PL_RES_KEY_COLOR_NAVI_TEXT),
+    [self.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],
                                                  NSFontAttributeName:[UIFont systemFontOfSize:20]}];
     
     [self.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];

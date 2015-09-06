@@ -41,30 +41,34 @@
 }
 
 #pragma mark - Handler Protocol
-- (void)setPattern:(NSString *)pwd
+- (BOOL)updatePattern:(NSString *)pattern
 {
+    BOOL ret = NO;
     if (self.innerCustomizedHandler)
     {
-        [self.innerCustomizedHandler setPattern:pwd];
+        ret = [self.innerCustomizedHandler updatePattern:pattern];
     }
     else
     {
-        NSData *rawData = [pwd dataUsingEncoding:NSUTF8StringEncoding];
+        NSData *rawData = [pattern dataUsingEncoding:NSUTF8StringEncoding];
         NSData *base64Data = [rawData base64EncodedDataWithOptions:NSDataBase64Encoding64CharacterLineLength];
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:base64Data forKey:ICPL_PH_KEY_PWD];
 
         [defaults synchronize];
+        
+        ret = YES;
     }
+    return ret;
 }
 
-- (BOOL)verifypattern:(NSString *)pwd
+- (BOOL)verifypattern:(NSString *)pattern
 {
     BOOL ret = NO;
     if (self.innerCustomizedHandler)
     {
-        ret = [self.innerCustomizedHandler verifypattern:pwd];
+        ret = [self.innerCustomizedHandler verifypattern:pattern];
     }
     else
     {
@@ -73,7 +77,7 @@
         NSData *rawData = [[NSData alloc] initWithBase64EncodedData:pwdData options:NSDataBase64DecodingIgnoreUnknownCharacters];
         NSString *pwdLocal = [[NSString alloc] initWithData:rawData encoding:NSUTF8StringEncoding];
         
-        ret = [pwdLocal isEqualToString:pwd];
+        ret = [pwdLocal isEqualToString:pattern];
     }
     
     return ret;

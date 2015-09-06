@@ -16,10 +16,42 @@ typedef NS_ENUM(NSUInteger, ICPatternLockType) {
 
 typedef NS_ENUM(NSUInteger, ICPatternLockState) {
     ICPatternLockStateNone = 0,
-    ICPatternLockStateFirstPatternSetted,
-    ICPatternLockStateSecondPatternConfirmed,
-    ICPatternLockStatePatternVerified,
+
+    // Set Pattern
+    ICPatternLockStatePreSet,
+    ICPatternLockStateSetFirstSetted,
+    ICPatternLockStateSetSecondConfirmed,
+    ICPatternLockStateSetted,
+
+    // Verify Pattern
+    ICPatternLockStatePreVerify,
+    ICPatternLockStateVerified,
+    
+    // Modify Pattern
+    ICPatternLockStatePreModify,
+    ICPatternLockStateModifyOldVerified,
+    ICPatternLockStateModifyFirstSeted,
+    ICPatternLockStateModifySecondConfirmed,
+    ICPatternLockStateModified,
+
+    
+    // Any other state here
+    
+    
+    
+    //ICPatternLockStateDone,
 };
+
+typedef NS_ENUM(NSUInteger, ICPatternLockError) {
+    ICPatternLockErrorNone = 0,
+    ICPatternLockErrorNotEnoughNodes,
+    ICPatternLockErrorPatternsNotMatch,
+    ICPatternLockErrorVerifyPatternFail,
+    ICPatternLockErrorUpdatePatternFail,
+};
+
+#define ICPATTERNLOCK_ERROR_DOMAIN          @"ICPatternLockErrorDomain"
+#define ICPATTERNLOCK_ERROR_KEY_NODE_COUNT  @"count"
 
 @protocol ICPatternLockViewControllerDelegate;
 @protocol ICPatternLockViewControllerDataSource;
@@ -61,9 +93,6 @@ typedef NS_ENUM(NSUInteger, ICPatternLockState) {
 
 @protocol ICPatternLockViewControllerDelegate <NSObject>
 
-// For showing hint message for different state
-- (void)patternLockViewControllerWillStartDrawPattern:(ICPatternLockViewController *)patternLockViewController;
-
 - (void)patternLockViewControllerPatternVerified:(ICPatternLockViewController *)patternLockViewController;
 - (void)patternLockViewControllerPatternUpdated:(ICPatternLockViewController *)patternLockViewController;
 
@@ -71,9 +100,10 @@ typedef NS_ENUM(NSUInteger, ICPatternLockState) {
 - (void)patternLockViewController:(ICPatternLockViewController *)patternLockViewController failWithError:(NSError *)error;
 
 @optional
+// GUI Callbacks
+- (void)patternLockViewControllerCloseClicked:(ICPatternLockViewController *)patternLockViewController;
+- (void)patternLockViewControllerResetClicked:(ICPatternLockViewController *)patternLockViewController;
 - (void)patternLockViewControllerForgotClicked:(ICPatternLockViewController *)patternLockViewController;
 - (void)patternLockViewControllerModifyClicked:(ICPatternLockViewController *)patternLockViewController;
-- (void)patternLockViewControllerResetClicked:(ICPatternLockViewController *)patternLockViewController;
-- (void)patternLockViewControllerCloseClicked:(ICPatternLockViewController *)patternLockViewController;
 
 @end

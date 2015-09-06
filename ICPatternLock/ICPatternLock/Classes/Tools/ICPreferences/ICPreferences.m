@@ -26,20 +26,10 @@
         @synchronized (self) {
             
             s_instance = [[ICPreferences alloc] init];
-            [s_instance loadDefaultValues];
         }
     }
     
     return s_instance;
-}
-
-- (void)loadDefaultValues
-{
-    [self setObject:[NSNumber numberWithFloat:PL_PFRS_DEFAULT_CENTER_SOLID_CIRCLE_SCALE] forKey:PL_PFRS_KEY_CENTER_SOLID_CIRCLE_SCALE];
-    [self setObject:[NSNumber numberWithFloat:PL_PFRS_DEFAULT_RING_LINE_WIDTH] forKey:PL_PFRS_KEY_RING_LINE_WIDTH];
-    [self setObject:[NSNumber numberWithUnsignedInteger:PL_PFRS_DEFAULT_NODE_COUNT_PER_ROW] forKey:PL_PFRS_KEY_NODE_COUNT_PER_ROW];
-    [self setObject:[NSNumber numberWithUnsignedInteger:PL_PFRS_DEFAULT_MINIMUM_NODE_COUNT] forKey:PL_PFRS_KEY_MINIMUM_NODE_COUNT];
-    [self setObject:PL_PFRS_DEFAULT_NODE_TABLE forKey:PL_PFRS_KEY_NODE_TABLE];
 }
 
 #pragma mark - Getters
@@ -60,7 +50,10 @@
         return nil;
     }
     
-    return self.preferences[key];
+    @synchronized (self) {
+
+        return self.preferences[key];
+    }
 }
 
 - (void)setObject:(id)value forKey:(NSString *)key
@@ -70,7 +63,10 @@
         return;
     }
     
-    self.preferences[key] = value;
+    @synchronized (self) {
+
+        self.preferences[key] = value;
+    }
 }
 
 @end

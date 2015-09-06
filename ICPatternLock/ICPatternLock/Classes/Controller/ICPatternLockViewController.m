@@ -7,11 +7,6 @@
 //
 
 #import "ICPatternLockViewController.h"
-#import "ICPatternLockNavigationController.h"
-
-#import "ICPatternLockDef.h"
-#import "ICPatternLockManager.h"
-
 #import "ICPatternLockHintLabel.h"
 #import "ICPatternLockView.h"
 
@@ -47,6 +42,20 @@
         {
             self.navigationItem.leftBarButtonItem = self.closeBarButtonItem;
         }
+        
+        if (self.type == ICPatternLockTypeSet)
+        {
+            self.state = ICPatternLockStatePreSet;
+        }
+        else if(self.type == ICPatternLockTypeVerify)
+        {
+            self.state = ICPatternLockStatePreVerify;
+        }
+        else if(self.type == ICPatternLockTypeModify)
+        {
+            self.state = ICPatternLockStatePreModify;
+        }
+        
     }
     return self;
 }
@@ -127,6 +136,13 @@
     self.view = view;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [self updateHintMessageForState];
+}
+
 #pragma mark - Getters
 - (BOOL)shouldAutorotate
 {
@@ -157,6 +173,18 @@
     return _closeBarButtonItem;
 }
 
+#pragma mark - Setters
+- (void)setState:(ICPatternLockState)state
+{
+    if (_state == state)
+    {
+        return;
+    }
+    
+    _state = state;
+    [self updateHintMessageForState];
+}
+
 #pragma mark - Hint Message Display
 - (void)showHintMessage:(NSString *)message withTextColor:(UIColor *)color shake:(BOOL)shake
 {
@@ -167,11 +195,28 @@
     }
 }
 
+- (void)updateHintMessageForState
+{
+    self.hintLabel.text = [self.dataSource hintMessageForState:self.state];
+}
+
 #pragma mark -
 - (void)resetPattern
 {
     self.firstSetPattern = nil;
-    self.state = ICPatternLockStateNone; // TODO:
+    
+    if (self.type == ICPatternLockTypeSet)
+    {
+        self.state = ICPatternLockStatePreSet;
+    }
+    else if (self.type == ICPatternLockTypeModify)
+    {
+        self.state = ICPatternLockStateModifyOldVerified;
+    }
+    else if (self.type == ICPatternLockTypeVerify)
+    {
+        self.state = ICPatternLockStatePreVerify;
+    }
 }
 
 #pragma mark - GUI Callback
@@ -207,7 +252,7 @@
 {
     self.navigationItem.rightBarButtonItem = nil;
     [self resetPattern];
-
+    
     if ([self.delegate respondsToSelector:@selector(patternLockViewControllerResetClicked:)])
     {
         [self.delegate patternLockViewControllerResetClicked:self];
@@ -234,9 +279,69 @@
     return res;
 }
 
+- (void)updatePattern:(NSString *)patternString
+{
+    if(self.firstSetPattern == nil)
+    {
+        if (self.type == ICPatternLockTypeSet)
+        {
+            self.state = ICPatternLockStateSetFirstSetted;
+        }
+        else if (self.type == ICPatternLockTypeModify)
+        {
+            self.state = ICPatternLockStateModifyFirstSeted;
+        }
+        
+        self.firstSetPattern = patternString;
+    }
+    else
+    {
+        if(![self.firstSetPattern isEqualToString:patternString])
+        {
+            NSError *error = [NSError errorWithDomain:ICPATTERNLOCK_ERROR_DOMAIN code:ICPatternLockErrorPatternsNotMatch userInfo:nil];
+            [self.delegate patternLockViewController:self failWithError:error];
+            
+            self.navigationItem.rightBarButtonItem = self.resetBarButtonItem;
+        }
+        else
+        {
+            if (self.type == ICPatternLockTypeSet)
+            {
+                self.state = ICPatternLockStateSetSecondConfirmed;
+            }
+            else if (self.type == ICPatternLockTypeModify)
+            {
+                self.state = ICPatternLockStateModifySecondConfirmed;
+            }
+            
+            if ([self.dataSource patternLockViewController:self updatePattern:patternString])
+            {
+                if (self.type == ICPatternLockTypeSet)
+                {
+                    self.state = ICPatternLockStateSetted;
+                }
+                else if (self.type == ICPatternLockTypeModify)
+                {
+                    self.state = ICPatternLockStateModified;
+                }
+                
+                [self.delegate patternLockViewControllerPatternUpdated:self];
+            }
+            else
+            {
+                NSError *error = [NSError errorWithDomain:ICPATTERNLOCK_ERROR_DOMAIN
+                                                     code:ICPatternLockErrorUpdatePatternFail
+                                                 userInfo:nil];
+                [self.delegate patternLockViewController:self failWithError:error];
+            }
+        }
+    }
+    
+}
+
 - (void)patternLockViewTouchWillBegin:(ICPatternLockView *)lockView
 {
-    [self.delegate patternLockViewControllerWillStartDrawPattern:self];
+    [self updateHintMessageForState];
 }
 
 - (void)patternLockViewTouchDidEnd:(ICPatternLockView *)lockView selectedIndexes:(NSArray *)selectedIndexes
@@ -260,16 +365,16 @@
         {
             if( [self verifyPattern:parrtenStr])
             {
-                self.state = ICPatternLockStatePatternVerified;
+                self.state = ICPatternLockStateVerified;
             }
         }
         else if (self.type == ICPatternLockTypeModify)
         {
-            if(self.state != ICPatternLockStatePatternVerified)
+            if(self.state < ICPatternLockStateModifyOldVerified)
             {
                 if( [self verifyPattern:parrtenStr])
                 {
-                    self.state = ICPatternLockStatePatternVerified;
+                    self.state = ICPatternLockStateModifyOldVerified;
                 }
             }
             else
@@ -278,43 +383,6 @@
             }
         }
     }
-}
-
-- (void)updatePattern:(NSString *)patternString
-{
-    if(self.firstSetPattern == nil)
-    {
-        self.firstSetPattern = patternString;
-        self.state = ICPatternLockStateFirstPatternSetted;
-        [self.delegate patternLockViewControllerPatternUpdated:self];
-    }
-    else
-    {
-        if(![self.firstSetPattern isEqualToString:patternString])
-        {
-            NSError *error = [NSError errorWithDomain:ICPATTERNLOCK_ERROR_DOMAIN code:ICPatternLockErrorPatternsNotMatch userInfo:nil];
-            [self.delegate patternLockViewController:self failWithError:error];
-            
-            self.navigationItem.rightBarButtonItem = self.resetBarButtonItem;
-        }
-        else
-        {
-            self.state = ICPatternLockStateSecondPatternConfirmed;
-            
-            if ([self.dataSource patternLockViewController:self updatePattern:patternString])
-            {
-                [self.delegate patternLockViewControllerPatternUpdated:self];
-            }
-            else
-            {
-                NSError *error = [NSError errorWithDomain:ICPATTERNLOCK_ERROR_DOMAIN
-                                                     code:ICPatternLockErrorUpdatePatternFail
-                                                 userInfo:nil];
-                [self.delegate patternLockViewController:self failWithError:error];
-            }
-        }
-    }
-    
 }
 
 @end

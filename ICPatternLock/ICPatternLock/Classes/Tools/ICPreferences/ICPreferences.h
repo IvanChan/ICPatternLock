@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PLPreferencesKeyDef.h"
 
 @interface ICPreferences : NSObject
 

@@ -67,17 +67,16 @@
 		9E89B2941B934DE2009A94AA /* ICPatternLockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICPatternLockView.h; sourceTree = "<group>"; };
 		9E89B2951B934DE2009A94AA /* ICPatternLockView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ICPatternLockView.mm; sourceTree = "<group>"; };
 		9E89B2961B934DE2009A94AA /* ICPatternLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICPatternLock.h; sourceTree = "<group>"; };
-		9E89B2FA1B9424E1009A94AA /* ICPatternLockDef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ICPatternLockDef.h; sourceTree = "<group>"; };
 		9E89B2FD1B942664009A94AA /* ICPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICPreferences.h; sourceTree = "<group>"; };
 		9E89B2FE1B942664009A94AA /* ICPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICPreferences.m; sourceTree = "<group>"; };
-		9E89B2FF1B942664009A94AA /* PLPreferencesKeyDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPreferencesKeyDef.h; sourceTree = "<group>"; };
 		9E89B3011B942664009A94AA /* ICResourceBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICResourceBridge.h; sourceTree = "<group>"; };
 		9E89B3021B942664009A94AA /* ICResourceBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICResourceBridge.m; sourceTree = "<group>"; };
-		9E89B3031B942664009A94AA /* PLResourceColorKeyDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLResourceColorKeyDef.h; sourceTree = "<group>"; };
-		9E89B3041B942664009A94AA /* PLResourceTextKeyDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLResourceTextKeyDef.h; sourceTree = "<group>"; };
 		9E89B30A1B942776009A94AA /* ICPatternHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICPatternHandler.h; sourceTree = "<group>"; };
 		9E89B30B1B942776009A94AA /* ICPatternHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICPatternHandler.m; sourceTree = "<group>"; };
 		9E89B30C1B942776009A94AA /* ICPatternHandlerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICPatternHandlerProtocol.h; sourceTree = "<group>"; };
+		9E89B47D1B9C3886009A94AA /* PLPreferencesKeyDef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLPreferencesKeyDef.h; sourceTree = "<group>"; };
+		9E89B47E1B9C3886009A94AA /* PLResourceColorKeyDef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLResourceColorKeyDef.h; sourceTree = "<group>"; };
+		9E89B47F1B9C3886009A94AA /* PLResourceTextKeyDef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLResourceTextKeyDef.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,7 +145,9 @@
 		9E89B2791B934DE2009A94AA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				9E89B2FA1B9424E1009A94AA /* ICPatternLockDef.h */,
+				9E89B47D1B9C3886009A94AA /* PLPreferencesKeyDef.h */,
+				9E89B47E1B9C3886009A94AA /* PLResourceColorKeyDef.h */,
+				9E89B47F1B9C3886009A94AA /* PLResourceTextKeyDef.h */,
 				9E89B27A1B934DE2009A94AA /* ICPatternLockManager.h */,
 				9E89B27B1B934DE2009A94AA /* ICPatternLockManager.m */,
 				9E89B2801B934DE2009A94AA /* Controller */,
@@ -195,7 +196,6 @@
 			children = (
 				9E89B2FD1B942664009A94AA /* ICPreferences.h */,
 				9E89B2FE1B942664009A94AA /* ICPreferences.m */,
-				9E89B2FF1B942664009A94AA /* PLPreferencesKeyDef.h */,
 			);
 			path = ICPreferences;
 			sourceTree = "<group>";
@@ -205,8 +205,6 @@
 			children = (
 				9E89B3011B942664009A94AA /* ICResourceBridge.h */,
 				9E89B3021B942664009A94AA /* ICResourceBridge.m */,
-				9E89B3031B942664009A94AA /* PLResourceColorKeyDef.h */,
-				9E89B3041B942664009A94AA /* PLResourceTextKeyDef.h */,
 			);
 			path = ICResourceBridge;
 			sourceTree = "<group>";

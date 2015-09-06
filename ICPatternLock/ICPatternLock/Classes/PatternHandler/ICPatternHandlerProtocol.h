@@ -10,8 +10,8 @@
 
 @protocol ICPatternHandlerProtocol <NSObject>
 
-- (void)setPattern:(NSString *)pwd;
-- (BOOL)verifypattern:(NSString *)pwd;
+- (BOOL)updatePattern:(NSString *)pattern;
+- (BOOL)verifypattern:(NSString *)pattern;
 - (BOOL)isPatternSetted;
 
 @end
