@@ -10,6 +10,11 @@
 #import "ICPatternNodeView.h"
 #import <math.h>
 
+#define DEFAULT_NODE_COUNT 9
+#define DEFAULT_NODE_COUNT_PER_ROW 3
+
+#define DEFAULT_NODE_MARGIN 34.0f
+
 @interface ICPatternLockView ()
 
 @property (nonatomic, strong) NSMutableArray *allNodes;
@@ -27,8 +32,17 @@
 {
     if (_allNodes == nil)
     {
-        _allNodes = [[NSMutableArray alloc] initWithCapacity:9];
+        _allNodes = [NSMutableArray arrayWithCapacity:_nodeCount];
+        
+        for (NSUInteger i = 0; i < _nodeCount; i++)
+        {
+            ICPatternNodeView *nodeView = [[ICPatternNodeView alloc] init];
+            
+            [self addSubview:nodeView];
+            [_allNodes addObject:nodeView];
+        }
     }
+    
     return _allNodes;
 }
 
@@ -46,7 +60,7 @@
 {
     if (_nodeMargin <= 0)
     {
-        _nodeMargin = 34.0f;
+        _nodeMargin = DEFAULT_NODE_MARGIN;
     }
     
     return _nodeMargin;
@@ -56,7 +70,7 @@
 {
     if (_nodeCount <= 0)
     {
-        _nodeCount = 9;
+        _nodeCount = DEFAULT_NODE_COUNT;
     }
     
     return _nodeCount;
@@ -66,7 +80,7 @@
 {
     if (_nodeCountPerRow <= 0)
     {
-        _nodeCountPerRow = 3;
+        _nodeCountPerRow = DEFAULT_NODE_COUNT_PER_ROW;
     }
     
     return _nodeCountPerRow;
@@ -81,6 +95,10 @@
     }
     
     _nodeCount = nodeCount;
+
+    ICPatternNodeView *node = self.allNodes[0];
+    UIColor *nodeColorNormal = [node nodeColorForState:ICPatternLockNodeStateNormal];
+    UIColor *nodeColorSelected = [node nodeColorForState:ICPatternLockNodeStateSelected];
     
     [self.allNodes makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self.allNodes removeAllObjects];
@@ -89,6 +107,8 @@
     for (NSUInteger i = 0; i < _nodeCount; i++)
     {
         ICPatternNodeView *nodeView = [[ICPatternNodeView alloc] init];
+        [nodeView setNodeColor:nodeColorNormal forState:ICPatternLockNodeStateNormal];
+        [nodeView setNodeColor:nodeColorSelected forState:ICPatternLockNodeStateSelected];
         
         [self addSubview:nodeView];
         [self.allNodes addObject:nodeView];

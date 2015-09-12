@@ -10,8 +10,9 @@
 
 @protocol ICPatternHandlerProtocol <NSObject>
 
+- (BOOL)isPatternSetted;
+
 - (BOOL)updatePattern:(NSString *)pattern;
 - (BOOL)verifypattern:(NSString *)pattern;
-- (BOOL)isPatternSetted;
 
 @end

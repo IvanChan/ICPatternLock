@@ -56,6 +56,7 @@ typedef NS_ENUM(NSUInteger, ICPatternLockError) {
 @protocol ICPatternLockViewControllerDelegate;
 @protocol ICPatternLockViewControllerDataSource;
 @class ICPatternLockView;
+@class ICPatternLockHintLabel;
 @interface ICPatternLockViewController : UIViewController
 
 @property (nonatomic, weak) id<ICPatternLockViewControllerDataSource> dataSource;
@@ -66,6 +67,7 @@ typedef NS_ENUM(NSUInteger, ICPatternLockError) {
 
 @property (nonatomic, assign) NSUInteger minimumNodeForPattern;     // Default is 4
 
+@property (nonatomic, strong, readonly) ICPatternLockHintLabel *hintLabel;
 @property (nonatomic, strong, readonly) ICPatternLockView *patternView;
 @property (nonatomic, strong, readonly) UIView *actionView;
 @property (nonatomic, strong, readonly) UIButton *forgotButton;

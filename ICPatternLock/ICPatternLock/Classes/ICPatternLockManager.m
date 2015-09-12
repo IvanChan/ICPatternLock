@@ -15,6 +15,7 @@
 #import "ICPatternLockViewController.h"
 #import "ICPatternLockNavigationController.h"
 #import "ICPatternLockView.h"
+#import "ICPatternLockHintLabel.h"
 
 #import "PLPreferencesKeyDef.h"
 #import "PLResourceTextKeyDef.h"
@@ -22,7 +23,7 @@
 
 @interface ICPatternLockManager () <ICPatternLockViewControllerDataSource, ICPatternLockViewControllerDelegate>
 
-@property (nonatomic, strong) ICPatternLockViewController *patternLockViewController;
+@property (nonatomic, strong) UINavigationController *patternNavigationController;
 @property (nonatomic, copy) void (^successBlock)(ICPatternLockViewController *patternLockViewController);
 @property (nonatomic, copy) void (^forgetPwdBlock)(ICPatternLockViewController *patternLockViewController);
 
@@ -60,12 +61,11 @@
     }
     self.preferenceLoaded = YES;
     
-    ICPreferences *preference = [ICPreferences sharedPreferences];
-    [preference setObject:[NSNumber numberWithFloat:PL_PFRS_DEFAULT_CENTER_SOLID_CIRCLE_SCALE] forKey:PL_PFRS_KEY_CENTER_SOLID_CIRCLE_SCALE];
-    [preference setObject:[NSNumber numberWithFloat:PL_PFRS_DEFAULT_RING_LINE_WIDTH] forKey:PL_PFRS_KEY_RING_LINE_WIDTH];
-    [preference setObject:[NSNumber numberWithUnsignedInteger:PL_PFRS_DEFAULT_NODE_COUNT_PER_ROW] forKey:PL_PFRS_KEY_NODE_COUNT_PER_ROW];
-    [preference setObject:[NSNumber numberWithUnsignedInteger:PL_PFRS_DEFAULT_MINIMUM_NODE_COUNT] forKey:PL_PFRS_KEY_MINIMUM_NODE_COUNT];
-    [preference setObject:PL_PFRS_DEFAULT_NODE_TABLE forKey:PL_PFRS_KEY_NODE_TABLE];
+    ICPreferencesSetValue([NSNumber numberWithFloat:PL_PFRS_DEFAULT_CENTER_SOLID_CIRCLE_SCALE], PL_PFRS_KEY_CENTER_SOLID_CIRCLE_SCALE);
+    ICPreferencesSetValue([NSNumber numberWithFloat:PL_PFRS_DEFAULT_RING_LINE_WIDTH], PL_PFRS_KEY_RING_LINE_WIDTH);
+    ICPreferencesSetValue([NSNumber numberWithUnsignedInteger:PL_PFRS_DEFAULT_NODE_COUNT_PER_ROW], PL_PFRS_KEY_NODE_COUNT_PER_ROW);
+    ICPreferencesSetValue([NSNumber numberWithUnsignedInteger:PL_PFRS_DEFAULT_MINIMUM_NODE_COUNT], PL_PFRS_KEY_MINIMUM_NODE_COUNT);
+    ICPreferencesSetValue(PL_PFRS_DEFAULT_NODE_TABLE, PL_PFRS_KEY_NODE_TABLE);
 }
 
 - (void)loadDefaultTextResource
@@ -115,7 +115,7 @@
                                    PL_RES_KEY_COLOR_ACTION_TEXT:PL_RES_DEFAULT_COLOR_ACTION_TEXT
                                    };
     
-    [[ICResourceBridge sharedBridge] loadTextResource:resColorDict];
+    [[ICResourceBridge sharedBridge] loadColorResource:resColorDict];
 }
 
 + (void)loadDefaultResource
@@ -135,6 +135,46 @@
 }
 
 #pragma mark - Convenience
++ (ICPatternLockViewController *)patternLockViewControllerWithType:(ICPatternLockType)type
+{
+    ICPatternLockViewController *patternLockViewController = [[ICPatternLockViewController alloc] initWithType:type];
+    patternLockViewController.dataSource = [ICPatternLockManager sharedPatternLockManager];
+    patternLockViewController.delegate = [ICPatternLockManager sharedPatternLockManager];
+    patternLockViewController.view.backgroundColor = ICColor(PL_RES_KEY_COLOR_BACKGROUND);
+    
+    patternLockViewController.patternView.nodeCount = [ICPreferencesValue(PL_PFRS_KEY_NODE_TABLE) count];
+    patternLockViewController.patternView.nodeCountPerRow = [ICPreferencesValue(PL_PFRS_KEY_NODE_COUNT_PER_ROW) intValue];
+    
+    [patternLockViewController.patternView setNodeColor:ICColor(PL_RES_KEY_COLOR_CIRCLE_NORMAL) forState:ICPatternLockNodeStateNormal];
+    [patternLockViewController.patternView setNodeColor:ICColor(PL_RES_KEY_COLOR_CIRCLE_SELECTED) forState:ICPatternLockNodeStateSelected];
+    
+    patternLockViewController.hintLabel.textColor = ICColor(PL_RES_KEY_COLOR_HINT_TEXT);
+    
+    if (type == ICPatternLockTypeSet)
+    {
+        patternLockViewController.title = ICLocalizedString(PL_RES_KEY_TEXT_TITLE_SET_PATTERN);
+        patternLockViewController.resetBarButtonItem.title = ICLocalizedString(PL_RES_KEY_TEXT_RESET);
+    }
+    else if (type == ICPatternLockTypeVerify)
+    {
+        patternLockViewController.title = ICLocalizedString(PL_RES_KEY_TEXT_TITLE_GESTURE_UNLOCK);
+        
+        [patternLockViewController.forgotButton setTitle:ICLocalizedString(PL_RES_KEY_TEXT_ACTION_FORGET_PATTERN) forState:UIControlStateNormal];
+        [patternLockViewController.forgotButton setTitleColor:ICColor(PL_RES_KEY_COLOR_HINT_TEXT) forState:UIControlStateNormal];
+        [patternLockViewController.modifyButton setTitle:ICLocalizedString(PL_RES_KEY_TEXT_ACTION_MODIFY_PATTERN) forState:UIControlStateNormal];
+        [patternLockViewController.modifyButton setTitleColor:ICColor(PL_RES_KEY_COLOR_HINT_TEXT) forState:UIControlStateNormal];
+    }
+    else if (type == ICPatternLockTypeModify)
+    {
+        patternLockViewController.title = ICLocalizedString(PL_RES_KEY_TEXT_TITLE_MODIFY_PATTERN);
+        
+        patternLockViewController.resetBarButtonItem.title = ICLocalizedString(PL_RES_KEY_TEXT_RESET);
+        patternLockViewController.closeBarButtonItem.title = ICLocalizedString(PL_RES_KEY_TEXT_CLOSE);
+    }
+    
+    return patternLockViewController;
+}
+
 + (ICPatternLockViewController *)presentPatternLockViewController:(ICPatternLockType)type
                   inParentViewController:(UIViewController *)parentViewController
                                 animated:(BOOL)animated
@@ -146,42 +186,16 @@
     
     [self loadDefaultResource];
     
-    ICPatternLockViewController *patternLockViewController = [[ICPatternLockViewController alloc] initWithType:ICPatternLockTypeSet];
-    patternLockViewController.dataSource = [ICPatternLockManager sharedPatternLockManager];
-    patternLockViewController.delegate = [ICPatternLockManager sharedPatternLockManager];
-    patternLockViewController.view.backgroundColor = ICColor(PL_RES_KEY_COLOR_BACKGROUND);
-    
-    [patternLockViewController.patternView setNodeColor:ICColor(PL_RES_KEY_COLOR_CIRCLE_NORMAL) forState:ICPatternLockNodeStateNormal];
-    [patternLockViewController.patternView setNodeColor:ICColor(PL_RES_KEY_COLOR_CIRCLE_SELECTED) forState:ICPatternLockNodeStateSelected];
-    
-    patternLockViewController.patternView.nodeCount = [ICPreferencesValue(PL_PFRS_KEY_NODE_TABLE) count];
-    patternLockViewController.patternView.nodeCountPerRow = [ICPreferencesValue(PL_PFRS_KEY_NODE_COUNT_PER_ROW) intValue];
-    
-    if (type == ICPatternLockTypeSet)
-    {
-        patternLockViewController.title = ICLocalizedString(PL_RES_KEY_TEXT_TITLE_SET_PATTERN);
-        patternLockViewController.resetBarButtonItem.title = ICLocalizedString(PL_RES_KEY_TEXT_RESET);
-    }
-    else if (type == ICPatternLockTypeVerify)
-    {
-        [patternLockViewController.forgotButton setTitle:ICLocalizedString(PL_RES_KEY_TEXT_ACTION_FORGET_PATTERN) forState:UIControlStateNormal];
-        [patternLockViewController.forgotButton setTitleColor:ICColor(PL_RES_KEY_COLOR_HINT_TEXT) forState:UIControlStateNormal];
-        [patternLockViewController.modifyButton setTitle:ICLocalizedString(PL_RES_KEY_TEXT_ACTION_MODIFY_PATTERN) forState:UIControlStateNormal];
-        [patternLockViewController.modifyButton setTitleColor:ICColor(PL_RES_KEY_COLOR_HINT_TEXT) forState:UIControlStateNormal];
-    }
-    else if (type == ICPatternLockTypeModify)
-    {
-        patternLockViewController.resetBarButtonItem.title = ICLocalizedString(PL_RES_KEY_TEXT_RESET);
-        patternLockViewController.closeBarButtonItem.title = ICLocalizedString(PL_RES_KEY_TEXT_CLOSE);
-    }
-    
-    [[ICPatternLockManager sharedPatternLockManager] setPatternLockViewController:patternLockViewController];
+    ICPatternLockViewController *patternLockViewController = [self patternLockViewControllerWithType:type];
     
     ICPatternLockNavigationController *navigationViewController = [[ICPatternLockNavigationController alloc] initWithRootViewController:patternLockViewController];
     [navigationViewController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:ICColor(PL_RES_KEY_COLOR_NAVI_TEXT),
                                                  NSFontAttributeName:[UIFont systemFontOfSize:20]}];
     
     [parentViewController presentViewController:navigationViewController animated:animated completion:nil];
+    
+    [[ICPatternLockManager sharedPatternLockManager] setPatternNavigationController:navigationViewController];
+
     
     return patternLockViewController;
 }
@@ -238,6 +252,12 @@
     [[ICResourceBridge sharedBridge] loadColorResource:colorInfo];
 }
 
+#pragma mark - Preferences
+- (void)setPreferencesValue:(id)value forKey:(NSString *)key
+{
+    ICPreferencesSetValue(value, key);
+}
+
 #pragma mark - PatternHandler
 + (void)setCustomizedPatternHandler:(id<ICPatternHandlerProtocol>)handler;
 {
@@ -247,6 +267,12 @@
 #pragma mark - ICPatternLockViewController DataSource
 - (NSString *)hintMessageForState:(ICPatternLockState)state
 {
+    ICPatternLockViewController *patternLockViewController = (ICPatternLockViewController *)[self.patternNavigationController visibleViewController];
+    if ([patternLockViewController isKindOfClass:[ICPatternLockViewController class]])
+    {
+        patternLockViewController.hintLabel.textColor = ICColor(PL_RES_KEY_COLOR_HINT_TEXT);
+    }
+    
     NSString *message = nil;
     switch (state)
     {
@@ -342,22 +368,14 @@
 
 - (void)patternLockViewControllerPatternUpdated:(ICPatternLockViewController *)patternLockViewController
 {
-    if (patternLockViewController.state == ICPatternLockStateSetSecondConfirmed
-        || patternLockViewController.state == ICPatternLockStateModifySecondConfirmed)
+    if (patternLockViewController.state == ICPatternLockStateSetted
+        || patternLockViewController.state == ICPatternLockStateModified)
     {
         patternLockViewController.view.userInteractionEnabled = NO;
         
         if(self.successBlock)
         {
             self.successBlock(patternLockViewController);
-        }
-        
-        if(patternLockViewController.type == ICPatternLockTypeModify)
-        {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                
-                [patternLockViewController.navigationController popViewControllerAnimated:YES];
-            });
         }
     }
 }
@@ -392,12 +410,12 @@
 
 - (void)patternLockViewControllerModifyClicked:(ICPatternLockViewController *)patternLockViewController
 {
-    ICPatternLockViewController *patternViewController = [[ICPatternLockViewController alloc] initWithType:ICPatternLockTypeModify];
+    ICPatternLockViewController *patternViewController = [ICPatternLockManager patternLockViewControllerWithType:ICPatternLockTypeModify];
     patternViewController.title = ICLocalizedString(PL_RES_KEY_TEXT_TITLE_MODIFY_PATTERN);
     patternViewController.navigationItem.leftBarButtonItem = nil;
-    [patternLockViewController showHintMessage:ICLocalizedString(PL_RES_KEY_TEXT_TITLE_MODIFY_INPUT_OLD_PATTERN)
-                                                                 withTextColor:ICColor(PL_RES_KEY_COLOR_HINT_TEXT)
-                                                                 shake:NO];
+//    [patternViewController showHintMessage:ICLocalizedString(PL_RES_KEY_TEXT_TITLE_MODIFY_INPUT_OLD_PATTERN)
+//                                                                 withTextColor:ICColor(PL_RES_KEY_COLOR_HINT_TEXT)
+//                                                                 shake:NO];
     [patternLockViewController.navigationController pushViewController:patternViewController animated:YES];
 }
 

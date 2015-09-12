@@ -8,6 +8,9 @@
 
 #import "ICPatternNodeView.h"
 
+#define DEFAULT_NODE_LINE_WIDTH 1
+#define DEFAULT_NODE_CENTER_NODE_SCALE 0.3f
+
 @interface ICPatternNodeView ()
 
 @property (nonatomic, assign) CGRect ringRect;
@@ -30,8 +33,8 @@
         self.nodeColorNormal = [UIColor whiteColor];
         self.nodeColorSelected = [UIColor blueColor];
         
-        self.lineWidth = 1;
-        self.solidCircleScale = 0.3f;
+        self.lineWidth = DEFAULT_NODE_LINE_WIDTH;
+        self.solidCircleScale = DEFAULT_NODE_CENTER_NODE_SCALE;
     }
     
     return self;

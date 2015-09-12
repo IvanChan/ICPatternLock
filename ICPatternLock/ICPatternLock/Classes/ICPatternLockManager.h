@@ -10,7 +10,6 @@
 
 @class ICPatternLockViewController;
 @protocol ICPatternHandlerProtocol;
-
 @interface ICPatternLockManager : NSObject
 
 #pragma mark - Convenience
@@ -37,7 +36,10 @@
 + (void)loadTextResource:(NSDictionary *)textInfo;
 + (void)loadColorResource:(NSDictionary *)colorInfo;
 
-#pragma mark -
+#pragma mark - Preferences
+- (void)setPreferencesValue:(id)value forKey:(NSString *)key;
+
+#pragma mark - PatternHandler
 + (void)setCustomizedPatternHandler:(id<ICPatternHandlerProtocol>)handler;
 
 @end

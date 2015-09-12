@@ -10,6 +10,8 @@
 #import "ICPatternLockHintLabel.h"
 #import "ICPatternLockView.h"
 
+#define DEFAULT_PATTERN_LOCK_MINIMUM_NODE 4
+
 @interface ICPatternLockViewController () <ICPatternLockViewDelegate>
 
 @property (nonatomic, assign) ICPatternLockType type;
@@ -36,7 +38,7 @@
     if (self = [super init])
     {
         self.type = type;
-        self.minimumNodeForPattern = 4;
+        self.minimumNodeForPattern = DEFAULT_PATTERN_LOCK_MINIMUM_NODE;
         
         if(self.type == ICPatternLockTypeModify)
         {
