@@ -130,7 +130,7 @@
     
     CGPathMoveToPoint(trianglePathM, NULL, topX, topY);
     
-    // Draw 2 lines connecting to ring
+    // Draw 2 lines
     CGFloat leftPointX = topX - w *.5f;
     CGFloat leftPointY =topY + h;
     CGPathAddLineToPoint(trianglePathM, NULL, leftPointX, leftPointY);

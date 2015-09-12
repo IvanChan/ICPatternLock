@@ -86,6 +86,7 @@ typedef NS_ENUM(NSUInteger, ICPatternLockError) {
 
 @protocol ICPatternLockViewControllerDataSource <NSObject>
 
+- (UIColor *)hintMessageColorForState:(ICPatternLockState)state;
 - (NSString *)hintMessageForState:(ICPatternLockState)state;
 
 - (BOOL)patternLockViewController:(ICPatternLockViewController *)patternLockViewController verifyPattern:(NSString *)pattern;

@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		9E89B2621B934C75009A94AA /* libICPatternLock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E89B2561B934C74009A94AA /* libICPatternLock.a */; };
-		9E89B2971B934DE2009A94AA /* ICPatternLockManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E89B27B1B934DE2009A94AA /* ICPatternLockManager.m */; };
-		9E89B2981B934DE2009A94AA /* ICPatternLockManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E89B27B1B934DE2009A94AA /* ICPatternLockManager.m */; };
 		9E89B29B1B934DE2009A94AA /* ICPatternLockNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E89B2821B934DE2009A94AA /* ICPatternLockNavigationController.m */; };
 		9E89B29C1B934DE2009A94AA /* ICPatternLockNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E89B2821B934DE2009A94AA /* ICPatternLockNavigationController.m */; };
 		9E89B29D1B934DE2009A94AA /* ICPatternLockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E89B2841B934DE2009A94AA /* ICPatternLockViewController.m */; };
@@ -24,8 +22,10 @@
 		9E89B3061B942664009A94AA /* ICPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E89B2FE1B942664009A94AA /* ICPreferences.m */; };
 		9E89B3071B942664009A94AA /* ICResourceBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E89B3021B942664009A94AA /* ICResourceBridge.m */; };
 		9E89B3081B942664009A94AA /* ICResourceBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E89B3021B942664009A94AA /* ICResourceBridge.m */; };
-		9E89B30D1B942776009A94AA /* ICPatternHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E89B30B1B942776009A94AA /* ICPatternHandler.m */; };
-		9E89B30E1B942776009A94AA /* ICPatternHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E89B30B1B942776009A94AA /* ICPatternHandler.m */; };
+		9EF12B0C1BA4065F004F9967 /* ICPatternLockManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EF12B041BA4065F004F9967 /* ICPatternLockManager.m */; };
+		9EF12B0D1BA4065F004F9967 /* ICPatternLockManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EF12B041BA4065F004F9967 /* ICPatternLockManager.m */; };
+		9EF12B0E1BA4065F004F9967 /* ICPatternHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EF12B071BA4065F004F9967 /* ICPatternHandler.m */; };
+		9EF12B0F1BA4065F004F9967 /* ICPatternHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EF12B071BA4065F004F9967 /* ICPatternHandler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,8 +54,6 @@
 		9E89B2561B934C74009A94AA /* libICPatternLock.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libICPatternLock.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E89B2611B934C75009A94AA /* ICPatternLockTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ICPatternLockTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E89B2671B934C75009A94AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9E89B27A1B934DE2009A94AA /* ICPatternLockManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICPatternLockManager.h; sourceTree = "<group>"; };
-		9E89B27B1B934DE2009A94AA /* ICPatternLockManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICPatternLockManager.m; sourceTree = "<group>"; };
 		9E89B2811B934DE2009A94AA /* ICPatternLockNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICPatternLockNavigationController.h; sourceTree = "<group>"; };
 		9E89B2821B934DE2009A94AA /* ICPatternLockNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICPatternLockNavigationController.m; sourceTree = "<group>"; };
 		9E89B2831B934DE2009A94AA /* ICPatternLockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICPatternLockViewController.h; sourceTree = "<group>"; };
@@ -71,12 +69,14 @@
 		9E89B2FE1B942664009A94AA /* ICPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICPreferences.m; sourceTree = "<group>"; };
 		9E89B3011B942664009A94AA /* ICResourceBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICResourceBridge.h; sourceTree = "<group>"; };
 		9E89B3021B942664009A94AA /* ICResourceBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICResourceBridge.m; sourceTree = "<group>"; };
-		9E89B30A1B942776009A94AA /* ICPatternHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICPatternHandler.h; sourceTree = "<group>"; };
-		9E89B30B1B942776009A94AA /* ICPatternHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICPatternHandler.m; sourceTree = "<group>"; };
-		9E89B30C1B942776009A94AA /* ICPatternHandlerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICPatternHandlerProtocol.h; sourceTree = "<group>"; };
-		9E89B47D1B9C3886009A94AA /* PLPreferencesKeyDef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLPreferencesKeyDef.h; sourceTree = "<group>"; };
-		9E89B47E1B9C3886009A94AA /* PLResourceColorKeyDef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLResourceColorKeyDef.h; sourceTree = "<group>"; };
-		9E89B47F1B9C3886009A94AA /* PLResourceTextKeyDef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PLResourceTextKeyDef.h; sourceTree = "<group>"; };
+		9EF12B031BA4065F004F9967 /* ICPatternLockManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICPatternLockManager.h; sourceTree = "<group>"; };
+		9EF12B041BA4065F004F9967 /* ICPatternLockManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICPatternLockManager.m; sourceTree = "<group>"; };
+		9EF12B061BA4065F004F9967 /* ICPatternHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICPatternHandler.h; sourceTree = "<group>"; };
+		9EF12B071BA4065F004F9967 /* ICPatternHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ICPatternHandler.m; sourceTree = "<group>"; };
+		9EF12B081BA4065F004F9967 /* ICPatternHandlerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICPatternHandlerProtocol.h; sourceTree = "<group>"; };
+		9EF12B091BA4065F004F9967 /* PLPreferencesKeyDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLPreferencesKeyDef.h; sourceTree = "<group>"; };
+		9EF12B0A1BA4065F004F9967 /* PLResourceColorKeyDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLResourceColorKeyDef.h; sourceTree = "<group>"; };
+		9EF12B0B1BA4065F004F9967 /* PLResourceTextKeyDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLResourceTextKeyDef.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,14 +145,9 @@
 		9E89B2791B934DE2009A94AA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				9E89B47D1B9C3886009A94AA /* PLPreferencesKeyDef.h */,
-				9E89B47E1B9C3886009A94AA /* PLResourceColorKeyDef.h */,
-				9E89B47F1B9C3886009A94AA /* PLResourceTextKeyDef.h */,
-				9E89B27A1B934DE2009A94AA /* ICPatternLockManager.h */,
-				9E89B27B1B934DE2009A94AA /* ICPatternLockManager.m */,
+				9EF12B021BA4065F004F9967 /* Manager */,
 				9E89B2801B934DE2009A94AA /* Controller */,
 				9E89B28F1B934DE2009A94AA /* Views */,
-				9E89B3091B942776009A94AA /* PatternHandler */,
 				9E89B2FB1B942664009A94AA /* Tools */,
 			);
 			path = Classes;
@@ -209,21 +204,34 @@
 			path = ICResourceBridge;
 			sourceTree = "<group>";
 		};
-		9E89B3091B942776009A94AA /* PatternHandler */ = {
-			isa = PBXGroup;
-			children = (
-				9E89B30A1B942776009A94AA /* ICPatternHandler.h */,
-				9E89B30B1B942776009A94AA /* ICPatternHandler.m */,
-				9E89B30C1B942776009A94AA /* ICPatternHandlerProtocol.h */,
-			);
-			path = PatternHandler;
-			sourceTree = "<group>";
-		};
 		9E89B3FB1B98AAF5009A94AA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9EF12B021BA4065F004F9967 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				9EF12B031BA4065F004F9967 /* ICPatternLockManager.h */,
+				9EF12B041BA4065F004F9967 /* ICPatternLockManager.m */,
+				9EF12B051BA4065F004F9967 /* PatternHandler */,
+				9EF12B091BA4065F004F9967 /* PLPreferencesKeyDef.h */,
+				9EF12B0A1BA4065F004F9967 /* PLResourceColorKeyDef.h */,
+				9EF12B0B1BA4065F004F9967 /* PLResourceTextKeyDef.h */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		9EF12B051BA4065F004F9967 /* PatternHandler */ = {
+			isa = PBXGroup;
+			children = (
+				9EF12B061BA4065F004F9967 /* ICPatternHandler.h */,
+				9EF12B071BA4065F004F9967 /* ICPatternHandler.m */,
+				9EF12B081BA4065F004F9967 /* ICPatternHandlerProtocol.h */,
+			);
+			path = PatternHandler;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,11 +325,11 @@
 				9E89B3051B942664009A94AA /* ICPreferences.m in Sources */,
 				9E89B2A71B934DE2009A94AA /* ICPatternLockView.mm in Sources */,
 				9E89B2A51B934DE2009A94AA /* ICPatternLockHintLabel.m in Sources */,
-				9E89B2971B934DE2009A94AA /* ICPatternLockManager.m in Sources */,
+				9EF12B0C1BA4065F004F9967 /* ICPatternLockManager.m in Sources */,
+				9EF12B0E1BA4065F004F9967 /* ICPatternHandler.m in Sources */,
 				9E89B29B1B934DE2009A94AA /* ICPatternLockNavigationController.m in Sources */,
 				9E89B2A31B934DE2009A94AA /* ICPatternNodeView.m in Sources */,
 				9E89B3071B942664009A94AA /* ICResourceBridge.m in Sources */,
-				9E89B30D1B942776009A94AA /* ICPatternHandler.m in Sources */,
 				9E89B29D1B934DE2009A94AA /* ICPatternLockViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -333,11 +341,11 @@
 				9E89B3061B942664009A94AA /* ICPreferences.m in Sources */,
 				9E89B2A81B934DE2009A94AA /* ICPatternLockView.mm in Sources */,
 				9E89B2A61B934DE2009A94AA /* ICPatternLockHintLabel.m in Sources */,
-				9E89B2981B934DE2009A94AA /* ICPatternLockManager.m in Sources */,
+				9EF12B0D1BA4065F004F9967 /* ICPatternLockManager.m in Sources */,
+				9EF12B0F1BA4065F004F9967 /* ICPatternHandler.m in Sources */,
 				9E89B29C1B934DE2009A94AA /* ICPatternLockNavigationController.m in Sources */,
 				9E89B2A41B934DE2009A94AA /* ICPatternNodeView.m in Sources */,
 				9E89B3081B942664009A94AA /* ICResourceBridge.m in Sources */,
-				9E89B30E1B942776009A94AA /* ICPatternHandler.m in Sources */,
 				9E89B29E1B934DE2009A94AA /* ICPatternLockViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

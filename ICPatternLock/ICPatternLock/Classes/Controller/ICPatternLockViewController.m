@@ -199,6 +199,7 @@
 
 - (void)updateHintMessageForState
 {
+    self.hintLabel.textColor = [self.dataSource hintMessageColorForState:self.state];
     self.hintLabel.text = [self.dataSource hintMessageForState:self.state];
 }
 

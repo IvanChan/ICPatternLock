@@ -23,7 +23,6 @@
 
 @interface ICPatternLockManager () <ICPatternLockViewControllerDataSource, ICPatternLockViewControllerDelegate>
 
-@property (nonatomic, strong) UINavigationController *patternNavigationController;
 @property (nonatomic, copy) void (^successBlock)(ICPatternLockViewController *patternLockViewController);
 @property (nonatomic, copy) void (^forgetPwdBlock)(ICPatternLockViewController *patternLockViewController);
 
@@ -194,9 +193,6 @@
     
     [parentViewController presentViewController:navigationViewController animated:animated completion:nil];
     
-    [[ICPatternLockManager sharedPatternLockManager] setPatternNavigationController:navigationViewController];
-
-    
     return patternLockViewController;
 }
 
@@ -265,14 +261,13 @@
 }
 
 #pragma mark - ICPatternLockViewController DataSource
+- (UIColor *)hintMessageColorForState:(ICPatternLockState)state
+{
+    return ICColor(PL_RES_KEY_COLOR_HINT_TEXT);
+}
+
 - (NSString *)hintMessageForState:(ICPatternLockState)state
 {
-    ICPatternLockViewController *patternLockViewController = (ICPatternLockViewController *)[self.patternNavigationController visibleViewController];
-    if ([patternLockViewController isKindOfClass:[ICPatternLockViewController class]])
-    {
-        patternLockViewController.hintLabel.textColor = ICColor(PL_RES_KEY_COLOR_HINT_TEXT);
-    }
-    
     NSString *message = nil;
     switch (state)
     {
@@ -413,9 +408,6 @@
     ICPatternLockViewController *patternViewController = [ICPatternLockManager patternLockViewControllerWithType:ICPatternLockTypeModify];
     patternViewController.title = ICLocalizedString(PL_RES_KEY_TEXT_TITLE_MODIFY_PATTERN);
     patternViewController.navigationItem.leftBarButtonItem = nil;
-//    [patternViewController showHintMessage:ICLocalizedString(PL_RES_KEY_TEXT_TITLE_MODIFY_INPUT_OLD_PATTERN)
-//                                                                 withTextColor:ICColor(PL_RES_KEY_COLOR_HINT_TEXT)
-//                                                                 shake:NO];
     [patternLockViewController.navigationController pushViewController:patternViewController animated:YES];
 }
 
