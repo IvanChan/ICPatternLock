@@ -9,13 +9,12 @@
 #ifndef ICPatternLock_ICPatternLock_h
 #define ICPatternLock_ICPatternLock_h
 
-#import "ICPatternLockManager.h"
-
+#import "ICPatternNodeView.h"
 #import "ICPatternLockView.h"
+#import "ICPatternLockHintLabel.h"
 #import "ICPatternLockViewController.h"
 
-#import "ICResourceBridge.h"
-#import "ICPreferences.h"
-#import "ICPatternHandler.h"
+#import "ICPatternHandlerProtocol.h"
+#import "ICPatternLockManager.h"
 
 #endif

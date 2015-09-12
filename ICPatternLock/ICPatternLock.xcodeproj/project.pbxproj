@@ -169,10 +169,10 @@
 			children = (
 				9E89B2901B934DE2009A94AA /* ICPatternNodeView.h */,
 				9E89B2911B934DE2009A94AA /* ICPatternNodeView.m */,
-				9E89B2921B934DE2009A94AA /* ICPatternLockHintLabel.h */,
-				9E89B2931B934DE2009A94AA /* ICPatternLockHintLabel.m */,
 				9E89B2941B934DE2009A94AA /* ICPatternLockView.h */,
 				9E89B2951B934DE2009A94AA /* ICPatternLockView.mm */,
+				9E89B2921B934DE2009A94AA /* ICPatternLockHintLabel.h */,
+				9E89B2931B934DE2009A94AA /* ICPatternLockHintLabel.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
