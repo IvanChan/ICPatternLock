@@ -69,6 +69,9 @@
 		9E89B3FE1B98AB31009A94AA /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		9E89B4001B98B217009A94AA /* ICPatternLockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ICPatternLockView.h; path = ../../ICPatternLock/ICPatternLock/Classes/Views/ICPatternLockView.h; sourceTree = "<group>"; };
 		9E89B4011B98B21C009A94AA /* ICPatternNodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ICPatternNodeView.h; path = ../../ICPatternLock/ICPatternLock/Classes/Views/ICPatternNodeView.h; sourceTree = "<group>"; };
+		9E93FABB1BAD765800FD3028 /* PLPreferencesKeyDef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PLPreferencesKeyDef.h; path = ../../ICPatternLock/ICPatternLock/Classes/Manager/PLPreferencesKeyDef.h; sourceTree = "<group>"; };
+		9E93FABC1BAD765800FD3028 /* PLResourceColorKeyDef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PLResourceColorKeyDef.h; path = ../../ICPatternLock/ICPatternLock/Classes/Manager/PLResourceColorKeyDef.h; sourceTree = "<group>"; };
+		9E93FABD1BAD765800FD3028 /* PLResourceTextKeyDef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PLResourceTextKeyDef.h; path = ../../ICPatternLock/ICPatternLock/Classes/Manager/PLResourceTextKeyDef.h; sourceTree = "<group>"; };
 		9EB662B51BA41D6A0074AB7C /* ICPatternLockHintLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ICPatternLockHintLabel.h; path = ../../ICPatternLock/ICPatternLock/Classes/Views/ICPatternLockHintLabel.h; sourceTree = "<group>"; };
 		9EB662B61BA41D790074AB7C /* ICPatternHandlerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ICPatternHandlerProtocol.h; path = ../../ICPatternLock/ICPatternLock/Classes/Manager/PatternHandler/ICPatternHandlerProtocol.h; sourceTree = "<group>"; };
 		9EF12B101BA40CBA004F9967 /* ICPatternLockManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ICPatternLockManager.h; path = ../../ICPatternLock/ICPatternLock/Classes/Manager/ICPatternLockManager.h; sourceTree = "<group>"; };
@@ -175,6 +178,9 @@
 				9E89B36C1B95A511009A94AA /* ICPatternLockViewController.h */,
 				9EB662B61BA41D790074AB7C /* ICPatternHandlerProtocol.h */,
 				9EF12B101BA40CBA004F9967 /* ICPatternLockManager.h */,
+				9E93FABB1BAD765800FD3028 /* PLPreferencesKeyDef.h */,
+				9E93FABC1BAD765800FD3028 /* PLResourceColorKeyDef.h */,
+				9E93FABD1BAD765800FD3028 /* PLResourceTextKeyDef.h */,
 			);
 			name = Dependency;
 			sourceTree = "<group>";

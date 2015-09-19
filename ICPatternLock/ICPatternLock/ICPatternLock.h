@@ -17,4 +17,8 @@
 #import "ICPatternHandlerProtocol.h"
 #import "ICPatternLockManager.h"
 
+#import "PLPreferencesKeyDef.h"
+#import "PLResourceColorKeyDef.h"
+#import "PLResourceTextKeyDef.h"
+
 #endif

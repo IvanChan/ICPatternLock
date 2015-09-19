@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "ICPatternLock"
-  s.version      = "1.0.1"
+  s.version      = "1.1.1"
   s.summary      = "A short description of ICPatternLock."
 
   s.description  = <<-DESC
