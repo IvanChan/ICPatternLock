@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "ICPatternLock"
-  s.version      = "1.2.1"
+  s.version      = "1.2.2"
   s.summary      = "A short description of ICPatternLock."
 
   s.description  = <<-DESC
@@ -89,7 +89,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "ICPatternLock/ICPatternLock", "ICPatternLock/ICPatternLock/**/*.{h,m}"
+  s.source_files  = "ICPatternLock/ICPatternLock", "ICPatternLock/ICPatternLock/**/*.{h,m,mm}"
   # s.exclude_files = "Classes/Exclude"
 
   s.public_header_files = "ICPatternLock/ICPatternLock/**/*.h"
