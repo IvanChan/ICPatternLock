@@ -249,7 +249,7 @@
 }
 
 #pragma mark - Preferences
-- (void)setPreferencesValue:(id)value forKey:(NSString *)key
++ (void)setPreferencesValue:(id)value forKey:(NSString *)key
 {
     ICPreferencesSetValue(value, key);
 }

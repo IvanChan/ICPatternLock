@@ -37,7 +37,7 @@
 + (void)loadColorResource:(NSDictionary *)colorInfo;
 
 #pragma mark - Preferences
-- (void)setPreferencesValue:(id)value forKey:(NSString *)key;
++ (void)setPreferencesValue:(id)value forKey:(NSString *)key;
 
 #pragma mark - PatternHandler
 + (void)setCustomizedPatternHandler:(id<ICPatternHandlerProtocol>)handler;
