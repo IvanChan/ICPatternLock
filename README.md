@@ -3,6 +3,8 @@
   because a pattern is much more easy to remember.
   What is more, it's also convenient for developers to use, of course, and to extend.
  
+ ![](https://github.com/IvanChan/ICPatternLock/raw/master/demo.png) 
+ 
  Pod is supported, try to add this to your `Podfile` </br>
  `pod 'ICPatternLock', :git => 'https://github.com/IvanChan/ICPatternLock.git'`
  
