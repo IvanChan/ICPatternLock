@@ -32,7 +32,7 @@
 /*
  *  Background Color
  */
-#define PL_RES_DEFAULT_COLOR_BACKGROUND rgba(13,52,89,1)
+#define PL_RES_DEFAULT_COLOR_BACKGROUND rgba(33,82,89,1)
 
 /*
  *  Navigation bar title color
