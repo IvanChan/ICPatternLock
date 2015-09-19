@@ -233,7 +233,7 @@
         return;
     }
 
-    [[ICPatternLockManager sharedPatternLockManager] setTextResourceLoaded:YES];
+    [ICPatternLockManager loadDefaultResource];
     [[ICResourceBridge sharedBridge] loadTextResource:textInfo];
 }
 
@@ -244,7 +244,7 @@
         return;
     }
     
-    [[ICPatternLockManager sharedPatternLockManager] setColorResourceLoaded:YES];
+    [ICPatternLockManager loadDefaultResource];
     [[ICResourceBridge sharedBridge] loadColorResource:colorInfo];
 }
 
