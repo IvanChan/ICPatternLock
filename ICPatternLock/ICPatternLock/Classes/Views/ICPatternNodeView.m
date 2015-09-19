@@ -157,12 +157,7 @@
 }
 
 - (void)setArrowAngle:(CGFloat)arrowAngle
-{
-    if (_arrowAngle == arrowAngle)
-    {
-        return;
-    }
-        
+{ 
     _arrowAngle = arrowAngle;
     [self setNeedsDisplay];
 }
