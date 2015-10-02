@@ -268,7 +268,7 @@
         nodeView.selected = NO;
         nodeView.angleCalculated = NO;
         
-        NSString *nodeValue = [NSString stringWithFormat:@"%d", [self.allNodes indexOfObject:nodeView]];
+        NSString *nodeValue = [NSString stringWithFormat:@"%@", @([self.allNodes indexOfObject:nodeView])];
         [selectedIndexes addObject:nodeValue];
     }
     [self.delegate patternLockViewTouchDidEnd:self selectedIndexes:selectedIndexes];
@@ -319,6 +319,11 @@
     }
 }
 
+#if defined(__LP64__) && __LP64__
+# define IC_FABS(a) fabs(a)
+#else
+# define IC_FABS(a) fabsf(a)
+#endif
 - (void)calculateDirect
 {
     NSUInteger count = [self.selectedNodes count];
@@ -333,8 +338,8 @@
     CGPoint last_1_center = last_1_nodeView.center;
     CGPoint last_2_center = last_2_nodeView.center;
     
-    CGFloat xLen = fabsf(last_1_center.x - last_2_center.x);
-    CGFloat yLen = fabsf(last_1_center.y - last_2_center.y);
+    CGFloat xLen = IC_FABS(last_1_center.x - last_2_center.x);
+    CGFloat yLen = IC_FABS(last_1_center.y - last_2_center.y);
 
     CGFloat angle = 0;
     if (yLen < 0.001)
