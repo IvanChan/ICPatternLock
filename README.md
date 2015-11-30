@@ -92,4 +92,4 @@ Flexible Usage
  </br>What's more, you can use `ICPatternLockView` to achive other goal if you like, imagination has no end！
  
 ### Created by
- Ivan Chan (airivan@hotmail.com)
+ Ivan Chan (aintivanc@icloud.com)
