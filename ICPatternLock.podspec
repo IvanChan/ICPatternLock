@@ -17,16 +17,9 @@ Pod::Spec.new do |s|
 
   s.name         = "ICPatternLock"
   s.version      = "0.9.0.0"
-  s.summary      = "A short description of ICPatternLock."
+  s.summary      = "ICPatternLock is a screen lock for your app access. "
 
-  s.description  = <<-DESC
-                   A longer description of ICPatternLock in Markdown format.
-
-                   * Think: Why did you write this? What is the focus? What does it do?
-                   * CocoaPods will be using this to generate tags, and improve search results.
-                   * Try to keep it short, snappy and to the point.
-                   * Finally, don't worry about the indent, CocoaPods strips it!
-                   DESC
+  s.description  = "ICPatternLock is a screen lock for your app access. It's familiar to most people and intuitively clear, because a pattern is much more easy to remember. What is more, it's also convenient for developers to use, of course, and to extend."
 
   s.homepage     = "https://github.com/IvanChan/ICPatternLock"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
