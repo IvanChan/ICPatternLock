@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "ICPatternLock"
-  s.version      = "0.9.0.0"
+  s.version      = "0.9.0.1"
   s.summary      = "ICPatternLock is a screen lock for your app access. "
 
   s.description  = "ICPatternLock is a screen lock for your app access. It's familiar to most people and intuitively clear, because a pattern is much more easy to remember. What is more, it's also convenient for developers to use, of course, and to extend."
