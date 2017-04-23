@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ICPatternLock'
-  s.version      = "0.9.0.1"
+  s.version      = "1.0.0.0"
   s.summary      = "ICPatternLock is a screen lock for your app access. "
 
 # This description is used to generate tags and improve search results.
@@ -30,6 +30,7 @@ What is more, it's also convenient for developers to use, of course, and to exte
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '7.0'
+  s.requires_arc = true
 
   s.source_files = 'ICPatternLock/Classes/**/*'
   s.public_header_files = 'ICPatternLock/Classes/**/*.h'

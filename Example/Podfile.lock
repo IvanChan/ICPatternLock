@@ -1,5 +1,5 @@
 PODS:
-  - ICPatternLock (0.9.0.1)
+  - ICPatternLock (1.0.0.0)
 
 DEPENDENCIES:
   - ICPatternLock (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  ICPatternLock: ca290dee44412186c36eecf517247cc70134b473
+  ICPatternLock: 04cf9f08a45746167bf1f11a81a7b532f0c11f24
 
 PODFILE CHECKSUM: aa17ce87f53b324b290b610b4b88cac9a17a6564
 
