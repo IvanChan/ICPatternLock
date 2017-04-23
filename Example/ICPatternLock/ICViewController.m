@@ -1,19 +1,19 @@
 //
-//  ViewController.m
-//  ICPatternLockDemo
+//  ICViewController.m
+//  ICPatternLock
 //
-//  Created by _ivanC on 8/30/15.
-//  Copyright (c) 2015 _ivanC. All rights reserved.
+//  Created by aintivanc@icloud.com on 04/23/2017.
+//  Copyright (c) 2017 aintivanc@icloud.com. All rights reserved.
 //
 
-#import "ViewController.h"
-#import "ICPatternLock.h"
+#import "ICViewController.h"
+#import <ICPatternLock/ICPatternLock.h>
 
-@interface ViewController ()
+@interface ICViewController ()
 
 @end
 
-@implementation ViewController
+@implementation ICViewController
 
 - (void)viewDidLoad
 {
@@ -22,7 +22,7 @@
     
     CGFloat buttonWidth = 200;
     CGFloat buttonHeight = 50;
-
+    
     UIButton *setButton = [[UIButton alloc] initWithFrame:CGRectMake((CGRectGetWidth(self.view.bounds) - buttonWidth)/2,
                                                                      100,
                                                                      buttonWidth,
@@ -68,7 +68,7 @@
         [ICPatternLockManager showSettingPatternLock:self
                                             animated:YES
                                         successBlock:^(ICPatternLockViewController *controller){
-            
+                                            
                                             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                                                 
                                                 [controller dismissViewControllerAnimated:YES completion:nil];
@@ -131,4 +131,5 @@
                                        }];
     }
 }
+
 @end

@@ -1,0 +1,16 @@
+PODS:
+  - ICPatternLock (0.9.0.1)
+
+DEPENDENCIES:
+  - ICPatternLock (from `../`)
+
+EXTERNAL SOURCES:
+  ICPatternLock:
+    :path: ../
+
+SPEC CHECKSUMS:
+  ICPatternLock: ca290dee44412186c36eecf517247cc70134b473
+
+PODFILE CHECKSUM: aa17ce87f53b324b290b610b4b88cac9a17a6564
+
+COCOAPODS: 1.2.1

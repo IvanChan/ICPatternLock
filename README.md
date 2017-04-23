@@ -1,13 +1,31 @@
 # ICPatternLock
-  ICPatternLock is a screen lock for your app access. It's familiar to most people and intuitively clear, 
+
+[![CI Status](http://img.shields.io/travis/_ivanC/ICPatternLock.svg?style=flat)](https://travis-ci.org/_ivanC/ICPatternLock)
+[![Version](https://img.shields.io/cocoapods/v/ICPatternLock.svg?style=flat)](http://cocoapods.org/pods/ICPatternLock)
+[![License](https://img.shields.io/cocoapods/l/ICPatternLock.svg?style=flat)](http://cocoapods.org/pods/ICPatternLock)
+[![Platform](https://img.shields.io/cocoapods/p/ICPatternLock.svg?style=flat)](http://cocoapods.org/pods/ICPatternLock)
+
+ICPatternLock is a screen lock for your app access. It's familiar to most people and intuitively clear, 
   because a pattern is much more easy to remember.
   What is more, it's also convenient for developers to use, of course, and to extend.
- 
- ![](https://github.com/IvanChan/ICPatternLock/raw/master/demo.png) 
- 
- Pod is supported, try to add this to your `Podfile` </br>
- `pod 'ICPatternLock', :git => 'https://github.com/IvanChan/ICPatternLock.git'`
- 
+
+## Example
+
+To run the example project, clone the repo, and run `pod install` from the Example directory first.
+
+## Requirements
+
+## Installation
+
+ICPatternLock is available through [CocoaPods](http://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+```ruby
+pod "ICPatternLock"
+```
+
+![](https://github.com/IvanChan/ICPatternLock/raw/master/demo.png) 
+
 Convenience Usage
 -----
   If you don't care much about the view display and some interactions, just use the `ICPatternLockManager` to present the pattern
@@ -16,7 +34,7 @@ Convenience Usage
   </br>All what you need to do is just run your logic in the callback block.
   </br>Check out the `Demo Project` to experience this.
 
-###To configure your pattern at the first time
+### To configure your pattern at the first time
   ```
   if ([ICPatternLockManager isPatternSetted])
     {
@@ -40,7 +58,7 @@ Convenience Usage
                                         }];
     }
   ```
-###Verify the pattern you previously set
+### Verify the pattern you previously set
   ```
   [ICPatternLockManager showVerifyPatternLock:self
                                            animated:YES
@@ -56,7 +74,8 @@ Convenience Usage
                                            });
                                        }];
   ```
-###Modify the pattern
+
+### Modify the pattern
   ```
         [ICPatternLockManager showModifyPatternLock:self
                                            animated:YES
@@ -91,5 +110,10 @@ Flexible Usage
  If you want to assemble this to your own logic, using `ICPatternLockViewController` directly, it has enough api for user.
  </br>What's more, you can use `ICPatternLockView` to achive other goal if you like, imagination has no end！
  
-### Created by
- Ivan Chan (aintivanc@icloud.com)
+## Author
+
+_ivanC
+
+## License
+
+ICPatternLock is available under the MIT license. See the LICENSE file for more info.

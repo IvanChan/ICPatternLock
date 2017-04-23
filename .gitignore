@@ -1,8 +1,4 @@
-
-ICPatternLock/DerivedData
-ICPatternLockDemo/DerivedData
-
-ICPatternLock/ICPatternLock.xcodeproj/project.xcworkspace/xcuserdata
-ICPatternLock/ICPatternLock.xcodeproj/xcuserdata
-ICPatternLockDemo/ICPatternLockDemo.xcodeproj/project.xcworkspace/xcuserdata
-ICPatternLockDemo/ICPatternLockDemo.xcodeproj/xcuserdata
+xcuserdata
+Build
+DerivedData
+Example/Pods
