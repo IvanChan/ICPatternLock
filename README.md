@@ -9,6 +9,8 @@ ICPatternLock is a screen lock for your app access. It's familiar to most people
   because a pattern is much more easy to remember.
   What is more, it's also convenient for developers to use, of course, and to extend.
 
+![](https://github.com/IvanChan/ICPatternLock/raw/master/demo.png) 
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
@@ -23,8 +25,6 @@ it, simply add the following line to your Podfile:
 ```ruby
 pod "ICPatternLock"
 ```
-
-![](https://github.com/IvanChan/ICPatternLock/raw/master/demo.png) 
 
 Convenience Usage
 -----
